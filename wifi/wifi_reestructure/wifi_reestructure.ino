@@ -34,9 +34,9 @@ Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ
                                          SPI_CLOCK_DIVIDER); // you can change this clock speed
 
 //#define WLAN_SSID       "FoxFi51"           // cannot be longer than 32 characters!
-#define WLAN_SSID       "FoxFi55"           // cannot be longer than 32 characters!
+#define WLAN_SSID       "DonCarlosx-6"           // cannot be longer than 32 characters!
 //#define WLAN_PASS       "12345678a"
-#define WLAN_PASS       ""
+#define WLAN_PASS       "8097661815"
 // Security can be WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA or WLAN_SEC_WPA2
 #define WLAN_SECURITY   WLAN_SEC_WPA2
 
@@ -46,7 +46,7 @@ Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ
 
 // What page to grab!
 //#define WEBSITE      "172.20.10.7"
-#define WEBSITE      "192.168.43.38"
+#define WEBSITE      "10.0.0.14"
 //#define WEBPAGE      "/v1/test-wifi"
 String route = "/v1/measurements";
 char* WEBPAGE = "/v1/measurements";

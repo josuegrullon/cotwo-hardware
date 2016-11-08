@@ -13,6 +13,7 @@ void setup() {
     pinMode(WindSensorPin, INPUT);
     pinMode(output, OUTPUT);  
     pinMode(input, INPUT); 
+     
     attachInterrupt(digitalPinToInterrupt(WindSensorPin), rotation, FALLING); 
 } 
 

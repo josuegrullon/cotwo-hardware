@@ -34,12 +34,12 @@ It might not work on all networks!
 Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ, ADAFRUIT_CC3000_VBAT,
                                          SPI_CLOCK_DIVIDER); // you can change this clock speed
 
-#define WLAN_SSID       "FoxFi55"           // cannot be longer than 32 characters!
-
-#define WLAN_PASS       "123456789a"
+#define WLAN_SSID       "DonCarlosx-6"           // cannot be longer than 32 characters!
+//8097661815
+#define WLAN_PASS       "8097661815"
 
 // Security can be WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA or WLAN_SEC_WPA2
-#define WLAN_SECURITY   WLAN_SEC_UNSEC
+#define WLAN_SECURITY   WLAN_SEC_WPA2
 
 #define IDLE_TIMEOUT_MS  900      // Amount of time to wait (in milliseconds) with no data 
                                    // received before closing the connection.  If you know the server
@@ -47,7 +47,7 @@ Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ
 
 // What page to grab!
 //#define WEBSITE      "172.20.10.7"
-#define WEBSITE      "192.168.43.38"
+#define WEBSITE      "10.0.0.14"
 //#define WEBPAGE      "/v1/test-wifi"
 String route = "/v1/measurements";
 char* WEBPAGE = "/v1/measurements";
@@ -122,106 +122,35 @@ void setup(void)
 
 void loop(void)
 {
-  lecCO2();
-  String request;
-//  
-//  int iR0 = analogRead(A0);
-//  int iR1 = analogRead(A1);
-//  int iR2 = analogRead(A2);
-//  int iR3 = analogRead(A3);
-//  int iR4 = analogRead(A4);
-//  int iR5 = analogRead(A5);
-//  int iR6 = analogRead(A6);
-//  int iR7 = analogRead(A7);
-//  
-//  if (iR0 == 0){
-//    w_dir="N";
-//    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + w_dir + "&w_vel=" + w_vel + " HTTP/1.0\r\n";
-//    Serial.println(request);
-//    send_request(request);
-//  } 
-//  if (iR1 == 0){
-//    w_dir="NE";
-//    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + w_dir + "&w_vel=" + w_vel + " HTTP/1.0\r\n";
-//    Serial.println(request);
-//    send_request(request);
-//  } 
-//  if (iR2 == 0){
-//    w_dir="E";
-//    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + w_dir + "&w_vel=" + w_vel + " HTTP/1.0\r\n";
-//    Serial.println(request);
-//    send_request(request);
-//  } 
-//  if (iR3 == 0){
-//    w_dir="SE";
-//    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + w_dir + "&w_vel=" + w_vel + " HTTP/1.0\r\n";
-//    //Serial.println(request);
-//    //send_request(request);
-//  } 
-//  if (iR4 == 0){
-//    w_dir="S";
-//    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + w_dir + "&w_vel=" + w_vel + " HTTP/1.0\r\n";
-//    Serial.println(request);
-//    send_request(request);
-//  } 
-//  if (iR5 == 0){
-//    w_dir="SO";
-//    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + w_dir + "&w_vel=" + w_vel + " HTTP/1.0\r\n";
-//    Serial.println(request);
-//    send_request(request);
-//  } 
-//  if (iR6 == 0){
-//    w_dir="O";
-//    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + w_dir + "&w_vel=" + w_vel + " HTTP/1.0\r\n";
-//    Serial.println(request);
-//    send_request(request);
-//  } 
-//  if (iR7 == 0) {
-//    w_dir="NO";
-//    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + w_dir + "&w_vel=" + w_vel + " HTTP/1.0\r\n";
-//    send_request(request);
-//  }
-//  else {
-//    w_dir="NO";
-//    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + w_dir + "&w_vel=" + w_vel + " HTTP/1.0\r\n";
-//    Serial.println(request);
-//    send_request(request);
-//  }
+    lecCO2();
+    String request;
+
     Rotations = 0; // Set Rotations count to 0 ready for calculations 
 
     sei(); // Enables interrupts 
     delay (1000);
-    cli(); // Disable interrupts 
+//  cli(); // Disable interrupts 
     
-
     interval = (float)(interval / 1000.00);
     float out = interval != 0 ? (2.4 / interval) : 0.00;
-
+    out = out > 100 ? 0.00 : out; // GUILLERMO HACK
   
-  Serial.print("Lectura analoga: ");Serial.println(direccion);Serial.println(" vel: ");Serial.println(out);
-  request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + "n" + "&w_vel=" + w_vel+ " HTTP/1.0\r\n";
-  Serial.println(request);
-  send_request(request);
+    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + "n" + "&w_vel=" + out + " HTTP/1.0\r\n";
+    Serial.println(request);
+    send_request(request);
   
   // connection();
-  //WPTEMP = "";
-  
+    //WPTEMP = "";
+
   delay(100);
-//  if (false){
-//    /* You need to make sure to clean up after yourself or the CC3000 can freak out */
-//    /* the next time your try to connect ... */
-//    Serial.println(F("\n\nDisconnecting"));
-//    cc3000.disconnect();
-//  }
-//  i++;
-  
-  
-  
 }
 
 void rotation () { 
+  
+//  Serial.println("ex");
     unsigned long current = millis();
     if ((current - ContactBounceTime) > 15 ) { // debounce the switch contact. 
+      interval = 0;
         interval = (float)current - ContactBounceTime;
         ContactBounceTime = current;     
     }
@@ -261,7 +190,7 @@ void wifInit(){
   }
   
   // Optional SSID scan
-   listSSIDResults();
+//   listSSIDResults();
   
   Serial.print(F("\nAttempting to connect to ")); Serial.println(WLAN_SSID);
   
