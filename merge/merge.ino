@@ -58,6 +58,7 @@ char* WEBPAGE = "/v1/measurements";
 String id = "0004";
 
 unsigned long valCO2;
+String winDir = "n";
 
 String w_dir = "";
 int sensorPin = A8;
@@ -104,7 +105,7 @@ int i=0;
 
 void setup(void)
 {
-  //pinMode(direccion,INPUT);
+  pinMode(A0,INPUT);
   w_vel = "50";
   pinMode(WindSensorPin, INPUT);
   Serial.begin(9600);
@@ -123,6 +124,7 @@ void setup(void)
 void loop(void)
 {
     lecCO2();
+    windDirection();
     String request;
 
     Rotations = 0; // Set Rotations count to 0 ready for calculations 
@@ -135,7 +137,7 @@ void loop(void)
     float out = interval != 0 ? (2.4 / interval) : 0.00;
     out = out > 100 ? 0.00 : out; // GUILLERMO HACK
   
-    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + "n" + "&w_vel=" + out + " HTTP/1.0\r\n";
+    request = "GET " + route + "?id=" + id + "&ppm=" + valCO2 + "&w_dir=" + winDir + "&w_vel=" + out + " HTTP/1.0\r\n";
     Serial.println(request);
     send_request(request);
   
@@ -155,6 +157,27 @@ void rotation () {
         ContactBounceTime = current;     
     }
 }
+
+void windDirection() {
+  if(analogRead (A0)>=930 && analogRead(A0)<=931) {
+    winDir = "s";
+  } else if (analogRead (A0)>=559 && analogRead(A0)<=561) {
+    winDir = "se";
+  }  else if (analogRead (A0)>=235 && analogRead(A0)<=237) {
+    winDir = "e";
+  } else if (analogRead (A0)>=134 && analogRead(A0)<=136) {
+    winDir = "ne";
+  } else if (analogRead (A0)>=75 && analogRead(A0)<=77) {
+    winDir = "n";
+  } else if (analogRead (A0)>=390 && analogRead(A0)<=392){
+    winDir = "no";
+  } else if (analogRead (A0)>=736 && analogRead(A0)<=738){
+    winDir = "o";
+  } else if (analogRead (A0)>=838 && analogRead(A0)<=840){
+    winDir = "so";
+  }
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*******************************************************************************************************
